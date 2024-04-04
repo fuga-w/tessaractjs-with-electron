@@ -1,0 +1,15 @@
+{
+  "name": "electron-app",
+  "version": "1.0.0",
+  "main": "build/main.js",
+  "author": "fuga-w",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^20.12.4",
+    "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "electron": "^29.2.0"
+  }
+}
