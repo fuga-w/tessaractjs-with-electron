@@ -1,0 +1,12 @@
+{
+  "name": "tessaractjs-with-electron",
+  "version": "0.1.0",
+  "main": "index.js",
+  "author": "fuga-w",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "Packages/*",
+    "Apps/*"
+  ]
+}
