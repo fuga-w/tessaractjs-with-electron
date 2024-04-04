@@ -1,0 +1,17 @@
+{
+  "name": "module-tessaract",
+  "version": "0.1.0",
+  "main": "build/index.js",
+  "types": "build/types//index.d.ts",
+  "author": "fuga-w",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^20.12.4",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "tesseract.js": "^5.0.5"
+  }
+}
