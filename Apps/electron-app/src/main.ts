@@ -1,6 +1,6 @@
-import { app, BrowserWindow, systemPreferences } from "electron";
+import { app, BrowserWindow, ipcMain, systemPreferences } from "electron";
 import * as path from "path";
-
+import { recognizeText } from "module-tessaract";
 function createWindow() {
   const win = new BrowserWindow({
     width: 1500,
@@ -26,4 +26,11 @@ app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {
     app.quit();
   }
+});
+
+ipcMain.handle("recognizeText", async (event, data: string) => {
+  const [_, body] = data.split(",");
+  const buff = Buffer.from(body, "base64");
+  const result = await recognizeText(buff);
+  return result;
 });

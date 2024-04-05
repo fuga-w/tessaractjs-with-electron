@@ -9,13 +9,17 @@ const videoConstraints = {
 };
 
 const WebcamCapture = () => {
+  const [text, setText] = React.useState<string>("");
   const webcamRef = React.useRef<Webcam>(null);
   const capture = React.useCallback(
-    () => {
+    async () => {
       if (webcamRef.current !== null) {
         const imageSrc = webcamRef.current.getScreenshot();
-        console.log(imageSrc)
-        console.log(webcamRef.current)
+        if (imageSrc !== null) {
+          const result = await window.electron.recognizeText(imageSrc);
+          console.log(result);
+          setText(result);
+        }
       }
     },
     [webcamRef]
@@ -31,6 +35,7 @@ const WebcamCapture = () => {
         videoConstraints={videoConstraints}
       />
       <button onClick={capture}>Capture photo</button>
+      <p>{text}</p>
     </>
   );
 };

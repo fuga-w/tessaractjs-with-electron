@@ -10,6 +10,7 @@
     "typescript": "^5.4.3"
   },
   "dependencies": {
-    "electron": "^29.2.0"
+    "electron": "^29.2.0",
+    "module-tessaract": "^0.1.0"
   }
 }

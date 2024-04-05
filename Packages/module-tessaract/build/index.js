@@ -11,9 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.recognizeText = void 0;
 const tesseract_js_1 = require("tesseract.js");
-function recognizeText(image) {
+function recognizeText(imageSource) {
     return __awaiter(this, void 0, void 0, function* () {
-        return yield (0, tesseract_js_1.recognize)(image);
+        const worker = yield (0, tesseract_js_1.createWorker)("eng");
+        const ret = yield worker.recognize(imageSource);
+        yield worker.terminate();
+        return ret.data.text;
     });
 }
 exports.recognizeText = recognizeText;
