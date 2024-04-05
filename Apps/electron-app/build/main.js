@@ -27,8 +27,8 @@ const electron_1 = require("electron");
 const path = __importStar(require("path"));
 function createWindow() {
     const win = new electron_1.BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1500,
+        height: 1500,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
         },

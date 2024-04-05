@@ -1,10 +1,10 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, systemPreferences } from "electron";
 import * as path from "path";
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1500,
+    height: 1500,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
     },
@@ -15,7 +15,6 @@ function createWindow() {
 
 app.whenReady().then(() => {
   createWindow();
-
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
