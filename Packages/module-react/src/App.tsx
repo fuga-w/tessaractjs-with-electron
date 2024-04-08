@@ -3,12 +3,6 @@ import './App.css'
 import Webcam from "react-webcam";
 import {recognizeText} from "../../module-tessaract/src/index"
 
-const videoConstraints = {
-  width: 1280,
-  height: 720,
-  facingMode: "environment",
-};
-
 const base64StringToFile = (base64String: string) => {
   const byteString = atob(base64String);
   const arrayBuffer = Uint8Array.from(byteString, c => c.charCodeAt(0));
@@ -16,7 +10,12 @@ const base64StringToFile = (base64String: string) => {
   return blob;
 
 }
-const WebcamCapture = () => {
+const WebcamCapture = ({deviceId}: {deviceId: string}) => {
+  const videoConstraints = {
+    width: 1280,
+    height: 720,
+    deviceId: { exact: deviceId }
+  };
   const [text, setText] = React.useState<string>("");
   const webcamRef = React.useRef<Webcam>(null);
   const capture = React.useCallback(
@@ -49,10 +48,45 @@ const WebcamCapture = () => {
     </>
   );
 };
-function App() {
+
+const DeviceSelector = ({setDeviceId}: {setDeviceId: (deviceId: string) => void}) => {
+  const [devices, setDevices] = React.useState<MediaDeviceInfo[]>([]);
+  const handleDevices = React.useCallback(
+    (mediaDevices: MediaDeviceInfo[]) =>
+      setDevices(mediaDevices.filter(({ kind }) => kind === "videoinput")),
+    [setDevices]
+  );
+
+  React.useEffect(
+    () => {
+      navigator.mediaDevices.enumerateDevices().then(handleDevices);
+    },
+    [handleDevices]
+  );
+
   return (
     <>
-      <WebcamCapture />
+      {devices.map((device) => (
+        DeviceInfo({deviceId: device.deviceId, deviceLabel: device.label, setDevice: setDeviceId})
+        ))}
+    </>
+  );
+};
+
+const DeviceInfo = ({ deviceId, deviceLabel, setDevice }: {deviceId: string, deviceLabel: string, setDevice: (deviceId: string) => void}) => {
+  return (
+    <div>
+      <p>DeviceLabel: {deviceLabel}</p>
+      <button onClick={() => setDevice(deviceId)}>Select</button>
+    </div>
+  )
+
+}
+function App() {
+  const [deviceId, setDeviceId] = React.useState<string>("");
+  return (
+    <>
+    {deviceId === "" ? <DeviceSelector setDeviceId={setDeviceId} /> : <WebcamCapture deviceId={deviceId} />}
     </>
   )
 }
