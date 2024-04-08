@@ -6,6 +6,12 @@
   "author": "fuga-w",
   "license": "MIT",
   "private": true,
+  "exports": {
+    "./web": {
+      "import": "./build/web/Web/index.js",
+      "types": "./build/web/types/Web/index.d.ts"
+    }
+  },
   "devDependencies": {
     "@types/node": "^20.12.4",
     "prettier": "^3.2.5",

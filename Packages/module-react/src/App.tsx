@@ -1,15 +1,8 @@
 import React from 'react';
 import './App.css'
 import Webcam from "react-webcam";
-import {recognizeText} from "../../module-tessaract/src/index"
+import {recognize} from "module-tessaract/web"
 
-const base64StringToFile = (base64String: string) => {
-  const byteString = atob(base64String);
-  const arrayBuffer = Uint8Array.from(byteString, c => c.charCodeAt(0));
-  const blob = new Blob([arrayBuffer], { type: "image/jpeg" });
-  return blob;
-
-}
 const WebcamCapture = ({deviceId}: {deviceId: string}) => {
   const videoConstraints = {
     width: 1280,
@@ -23,9 +16,7 @@ const WebcamCapture = ({deviceId}: {deviceId: string}) => {
       if (webcamRef.current !== null) {
         const imageSrc = webcamRef.current.getScreenshot();
         if (imageSrc !== null) {
-          const [_, imageBody] = imageSrc.split(",");
-          const blob = base64StringToFile(imageBody);
-          const result = await recognizeText(blob);
+          const result = await recognize(imageSrc)
           console.log(result);
           setText(result);
         }

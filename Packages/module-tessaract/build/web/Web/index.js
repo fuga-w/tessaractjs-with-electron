@@ -1,4 +1,3 @@
-"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -8,15 +7,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.recognizeText = void 0;
-const tesseract_js_1 = require("tesseract.js");
-function recognizeText(imageSource) {
+import { recognizeText } from "../index";
+const base64StringToFile = (base64String) => {
+    const byteString = atob(base64String);
+    const arrayBuffer = Uint8Array.from(byteString, (c) => c.charCodeAt(0));
+    const blob = new Blob([arrayBuffer], { type: "image/jpeg" });
+    return blob;
+};
+export function recognize(image) {
     return __awaiter(this, void 0, void 0, function* () {
-        const worker = yield (0, tesseract_js_1.createWorker)("eng");
-        const ret = yield worker.recognize(imageSource);
-        yield worker.terminate();
-        return ret.data.text;
+        const [_, imageBody] = image.split(",");
+        const blob = base64StringToFile(imageBody);
+        const result = yield recognizeText(blob);
+        return result;
     });
 }
-exports.recognizeText = recognizeText;
