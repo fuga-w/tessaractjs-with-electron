@@ -6,3 +6,8 @@ export async function recognizeText(imageSource: ImageLike) {
   await worker.terminate();
   return ret.data.text;
 }
+
+function preprocessImage(image: ImageLike) {
+  // some preprocessing
+  return image;
+}
